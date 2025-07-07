@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+}
+header {
+  background: #000;
+  color: #fff;
+  padding: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.about-link {
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.about-link:hover {
+  color: rgb(215, 113, 23);
+}
+main {
+  padding: 40px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #eaeaea;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+}
+th {
+  background: #222;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+}
+td{
+    background: #e4e2e2;
+    color: #000000;
+    text-align: left;
+}
+.search-input {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.collapse-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 32px;
+  text-align: center;
+}
+.collapse-row {
+  display: none;
+  background: #f9f9f9;
+}
+.collapse-content {
+  padding: 16px 32px;
+  border-top: 1px solid #ddd;
+  color: #333;
+}
+.collapse-btn:focus {
+  outline: 2px solid #888;
+}
