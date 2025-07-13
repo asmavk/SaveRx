@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="Images/SaveRx-Logo.png">
+  <title>SaveRx</title>
+  <link rel="stylesheet" href="styles-OLD.css">
+</head>
+<body>
+  <header>
+    <span>SaveRx</span>
+    <a href="about.html" class="about-link">About us</a>
+  </header>
+  <main>
+    <p textAlign="Center"><b>Stop overpaying for your prescription.</b></p>
+    <input type="text" id="tableSearch" placeholder="Enter a medication..." class="search-input">
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Brand</th>
+          <th>Cost</th>
+          <th>Program</th>
+          <th>Generic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Table rows will be populated by JavaScript -->
+      </tbody>
+    </table>
+    <script>
+      function parseCSV(text) {
+        const rows = [];
+        let insideQuotes = false, value = '', row = [];
+        for (let i = 0; i < text.length; i++) {
+          const char = text[i];
+          if (char === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (char === ',' && !insideQuotes) {
+            row.push(value);
+            value = '';
+          } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+            if (value !== '' || row.length > 0) {
+              row.push(value);
+              rows.push(row);
+              row = [];
+              value = '';
+            }
+            if (char === '\r' && text[i + 1] === '\n') i++;
+          } else {
+            value += char;
+          }
+        }
+        if (value !== '' || row.length > 0) {
+          row.push(value);
+          rows.push(row);
+        }
+        return rows;
+      }
+      fetch('data.csv?' + new Date().getTime())
+        .then(response => response.text())
+        .then(csvText => {
+          const rows = parseCSV(csvText);
+          const tbody = document.querySelector('#dataTable tbody');
+          tbody.innerHTML = '';
+          for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const tr = document.createElement('tr');
+            // Collapse button cell
+            const tdCollapse = document.createElement('td');
+            const btn = document.createElement('button');
+            btn.className = 'collapse-btn';
+            btn.setAttribute('aria-expanded', 'false');
+            btn.innerHTML = '+';
+            tdCollapse.appendChild(btn);
+            tr.appendChild(tdCollapse);
+            // Brand (hyperlinked)
+            const tdBrand = document.createElement('td');
+            const link = row[1].trim();
+            if (link) {
+              const a = document.createElement('a');
+              a.href = link;
+              a.textContent = row[0];
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              tdBrand.appendChild(a);
+            } else {
+              tdBrand.textContent = row[0];
+            }
+            tr.appendChild(tdBrand);
+            // Cost
+            const tdCost = document.createElement('td');
+            tdCost.textContent = row[2];
+            tr.appendChild(tdCost);
+            // Program
+            const tdProgram = document.createElement('td');
+            const programValue = row[3].trim().toLowerCase();
+            if (programValue === 'yes') {
+              tdProgram.textContent = '✔️';
+              tdProgram.style.textAlign = 'center';
+            } else if (programValue === 'no') {
+              tdProgram.textContent = '❌';
+              tdProgram.style.textAlign = 'center';
+            } else {
+              tdProgram.textContent = row[3];
+            }
+            tr.appendChild(tdProgram);
+            // Generic
+            const tdGeneric = document.createElement('td');
+            const genericValue = row[4].trim().toLowerCase();
+            if (genericValue === 'yes') {
+              tdGeneric.textContent = '✔️';
+              tdGeneric.style.textAlign = 'center';
+            } else if (genericValue === 'no') {
+              tdGeneric.textContent = '❌';
+              tdGeneric.style.textAlign = 'center';
+            } else {
+              tdGeneric.textContent = row[4];
+            }
+            tr.appendChild(tdGeneric);
+            tbody.appendChild(tr);
+            // Collapsible row
+            const collapseTr = document.createElement('tr');
+            collapseTr.className = 'collapse-row';
+            const collapseTd = document.createElement('td');
+            collapseTd.colSpan = 5;
+            collapseTd.className = 'collapse-content';
+            collapseTd.textContent = 'PLACEHOLDER INFORMATION';
+            collapseTr.appendChild(collapseTd);
+            tbody.appendChild(collapseTr);
+            // Toggle logic
+            btn.addEventListener('click', function() {
+              const expanded = btn.getAttribute('aria-expanded') === 'true';
+              btn.setAttribute('aria-expanded', String(!expanded));
+              btn.innerHTML = expanded ? '+' : '−';
+              collapseTr.style.display = expanded ? 'none' : 'table-row';
+            });
+          }
+        });
+      // Simple table search
+      document.getElementById('tableSearch').addEventListener('keyup', function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#dataTable tbody tr');
+        for (let i = 0; i < rows.length; i += 2) {
+          const mainRow = rows[i];
+          const collapseRow = rows[i + 1];
+          const text = mainRow.textContent.toLowerCase();
+          const match = text.includes(filter);
+          mainRow.style.display = match ? '' : 'none';
+          if (collapseRow) collapseRow.style.display = match ? (collapseRow.style.display === 'table-row' ? 'table-row' : 'none') : 'none';
+        }
+      });
+    </script>
+  </main>
+</body>
+</html>

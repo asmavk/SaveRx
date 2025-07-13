@@ -1,57 +1,193 @@
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  margin: 0;
+  min-height: 100vh;
+  background: url('Images/Background.png') no-repeat center center fixed;
+  background-size: cover;
 }
-header {
-  background: #000;
-  color: #fff;
-  padding: 24px 0;
+
+.curved-header {
+  /* position: fixed; */
+  width: 80%;
+  height: 50px;
+  background: url('Images/Background.png');
+  background-size: cover;
+  border-radius: 30px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 2.5rem;
-  letter-spacing: 2px;
-  padding-left: 40px;
-  padding-right: 40px;
+  justify-content: space-between;
+  /* Space between left and right */
+  color: #1D8248;
+  font-size: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 10% 0 10%;
+  padding: 0 10px 0 20px;
+  /* Add horizontal padding */
+
 }
-.about-link {
-  font-size: 1.2rem;
-  color: #fff;
+
+.header-btn {
+  background-color: white;
+  color: #63b3b4;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #63b3b4;
+  cursor: pointer;
   text-decoration: none;
-  transition: color 0.2s;
 }
-.about-link:hover {
-  color: rgb(215, 113, 23);
+
+.header-btn:hover {
+  color: white;
+  background-color: #63b3b4;
 }
-main {
-  padding: 40px;
+
+.header-subtitle {
+  color: #1D8248;
+  font-size: 12pt;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #eaeaea;
-  margin-top: 20px;
+
+.header-subtitle:hover {
+  color: white;
 }
-th, td {
-  border: 1px solid #ddd;
-  padding: 12px;
+
+.header-logo {
+  width: 25px;
+  height: 25px;
+  background-image: url('Images/SaveRx-Logo.png');
+  background-size: cover;
 }
-th {
-  background: #222;
-  color: #fff;
+
+.main-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+  font-size: 4vw;
+  /* Responsive to screen size */
+  text-align: center;
   font-weight: bold;
+  color: white;
+
+}
+
+.centered-message {
+  width: 80%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  font-size: 54pt;
+  /* Responsive to screen size */
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  margin-top: -10%;
+}
+
+.centered-subtext {
+  width: 50%;
+  font-size: 12pt;
+  /* Smaller and responsive */
+  color: #555;
+  font-weight: normal;
+  margin-top: 20px;
   text-align: center;
 }
-td{
-    background: #e4e2e2;
-    color: #000000;
-    text-align: left;
+
+
+footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: #efefef;
+  color: #555;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  z-index: 1000;
 }
+
+.savenow-btn {
+  margin-top: 20px;
+  background: white;
+  color: #63b3b4;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.savenow-btn:hover {
+  background: #63b3b4;
+  color: white;
+}
+
+.white-box {
+  width: 100%;
+  height: 6vh;
+  background: white;
+  margin: 0 auto 0 auto;
+  /* Pushes the box below the first screen */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding-top: 30px;
+  font-size: 1.8rem;
+  color: #63b3b4;
+  text-align: center;
+  display: block;
+}
+
+.insurance-options {
+  background: white;
+  padding-top: 20px;
+  display: flex;
+  gap: 0.5%;
+}
+
+.insurance-btn {
+  flex: 1 1 0;
+  flex-wrap: wrap;
+  background-color: #ccfaea;
+  color: #555;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.commercial-container {
+  background-color: #63b3b4;
+  color: #555;
+  min-height: 800px;
+  height: 110%;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 0 0 10px 10px;
+}
+
+.other-container {
+  display: none;
+  background-color: #63b3b4;
+  color: white;
+  font-size: 1.5rem;
+  height: 800px;
+  text-align: center;
+  padding-top: 5%;
+  border-radius: 0 0 10px 10px;
+}
+
 .search-input {
-  width: 300px;
+  width: 400px;
   padding: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   font-size: 1rem;
   border: 1px solid #bbb;
   border-radius: 4px;
@@ -59,23 +195,66 @@ td{
   margin-left: auto;
   margin-right: auto;
 }
-.collapse-btn {
-  background: none;
+
+/* FOR THE TABLE */
+table {
+  width: 90%;
+  margin: 0px auto;
+  border-collapse: collapse;
+  background: #efefef;
+}
+
+td {
+  border: 1px solid #e4e2e2;
+  padding: 10px;
+  border-left: none;
+  border-right: none;
+  background: #white;
+  color: #000000;
+  text-align: left;
+  font-size: 16pt;
+}
+
+.table-btn {
+  margin-top: 20px;
+  background: white;
+  color: #000000;
   border: none;
-  font-size: 1.2rem;
+  padding: 5px 10px;
+  font-size: 12pt;
+  border-radius: 30px;
   cursor: pointer;
-  width: 32px;
-  text-align: center;
+  text-decoration: none;
 }
-.collapse-row {
-  display: none;
-  background: #f9f9f9;
+
+.table-btn:hover {
+  background: black;
+  color: white;
 }
-.collapse-content {
-  padding: 16px 32px;
-  border-top: 1px solid #ddd;
-  color: #333;
+
+.OG-price {
+  color: #575757;
+  font-size: 12pt;
+  font-weight: normal;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
-.collapse-btn:focus {
-  outline: 2px solid #888;
+
+.other-table-txt {
+  color: black;
+  font-size: 12pt;
+  font-weight: heavy;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
+
+@media (max-width: 600px) {
+  td {
+    font-size: ;
+  }
+
+}
+
+
+/* not using Table header */
+th {}

@@ -1,156 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="Images/SaveRx-Logo.png">
   <title>SaveRx</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-  <header>
-    <span>SaveRx</span>
-    <a href="about.html" class="about-link">About us</a>
+  <header class="curved-header">
+
+    <span class="header-title">
+      <img class="header-logo" src="Images/SaveRx-Logo.png" alt="Italian Trulli">
+      SaveRx</span>
+    <!-- <span class="header-subtitle">How it works</span> -->
+    <a href="#SaveNow" class="header-btn">Save Now</a>
   </header>
-  <main>
-    <p textAlign="Center"><b>Connecting YOU to pharmaceutical co-pay programs to get your medication at a discounted price.</b></p>
-    <input type="text" id="tableSearch" placeholder="Search your medication..." class="search-input">
+
+  <div class="main-text">
+    <div class="centered-message"> Stop <u>overpaying</u> for your prescription.</div>
+    <div class="centered-subtext"> Here at SaveRx, we are connecting you to manufacturer saving cards, so that you are
+      not overpaying for your prescriptions. </div>
+    <a href="#SaveNow" class="savenow-btn">Search your perscription</a>
+
+  </div>
+
+  <div id="SaveNow" class="white-box">
+    What insurance do you use to pay for your prescription?
+  </div>
+
+  <div class="insurance-options">
+    <button class="insurance-btn" id="commercial-btn" style="background-color: #63b3b4;">Commercial Insurance</button>
+    <button class="insurance-btn" id="other-btn">Government Provided</button>
+    <button class="insurance-btn" id="other1-btn">I don't have insurance</button>
+    <!-- <button class="insurance-btn" id="other2-btn">I don't know</button> -->
+  </div>
+
+  <div class="commercial-container" id="commercial-table-container">
+    <input type="text" id="tableSearch" class="search-input" placeholder="Search your medication...">
     <table id="dataTable">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Brand</th>
-          <th>Cost</th>
-          <th>Program</th>
-          <th>Generic</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Table rows will be populated by JavaScript -->
-      </tbody>
+      <!-- Table content will be inserted here -->
     </table>
+
     <script>
       function parseCSV(text) {
-        const rows = [];
-        let insideQuotes = false, value = '', row = [];
-        for (let i = 0; i < text.length; i++) {
-          const char = text[i];
-          if (char === '"') {
-            insideQuotes = !insideQuotes;
-          } else if (char === ',' && !insideQuotes) {
-            row.push(value);
-            value = '';
-          } else if ((char === '\n' || char === '\r') && !insideQuotes) {
-            if (value !== '' || row.length > 0) {
-              row.push(value);
-              rows.push(row);
-              row = [];
-              value = '';
-            }
-            if (char === '\r' && text[i + 1] === '\n') i++;
-          } else {
-            value += char;
-          }
-        }
-        if (value !== '' || row.length > 0) {
-          row.push(value);
-          rows.push(row);
-        }
-        return rows;
+        const lines = text.trim().split('\n');
+        return lines.map(line => line.split(','));
       }
-      fetch('data.csv?' + new Date().getTime())
+
+      let tableData = [];
+
+      function renderTable(data) {
+        const table = document.getElementById('dataTable');
+        table.innerHTML = '';
+        // Rows
+        for (let i = 1; i < data.length; i++) {
+          const row = document.createElement('tr');
+          data[i].forEach((cell, idx) => {
+            const td = document.createElement('td');
+            if (idx === 1) {
+              td.innerHTML = `<h5 class="OG-price"><s>${cell}</s> retail</h5>`; // Strike through second column
+            }
+            else if (idx === 3) {
+              td.innerHTML = `<a href="${cell}" class="table-btn" target="_blank">Save Now</a>`;
+            }
+            else {
+              td.innerHTML = `<h4 class="other-table-txt">${cell}</h4>`; 
+            }
+            row.appendChild(td);
+          });
+          table.appendChild(row);
+        }
+      }
+
+      fetch('TEST1.csv')
         .then(response => response.text())
         .then(csvText => {
-          const rows = parseCSV(csvText);
-          const tbody = document.querySelector('#dataTable tbody');
-          tbody.innerHTML = '';
-          for (let i = 1; i < rows.length; i++) {
-            const row = rows[i];
-            const tr = document.createElement('tr');
-            // Collapse button cell
-            const tdCollapse = document.createElement('td');
-            const btn = document.createElement('button');
-            btn.className = 'collapse-btn';
-            btn.setAttribute('aria-expanded', 'false');
-            btn.innerHTML = '+';
-            tdCollapse.appendChild(btn);
-            tr.appendChild(tdCollapse);
-            // Brand (hyperlinked)
-            const tdBrand = document.createElement('td');
-            const link = row[1].trim();
-            if (link) {
-              const a = document.createElement('a');
-              a.href = link;
-              a.textContent = row[0];
-              a.target = '_blank';
-              a.rel = 'noopener noreferrer';
-              tdBrand.appendChild(a);
-            } else {
-              tdBrand.textContent = row[0];
-            }
-            tr.appendChild(tdBrand);
-            // Cost
-            const tdCost = document.createElement('td');
-            tdCost.textContent = row[2];
-            tr.appendChild(tdCost);
-            // Program
-            const tdProgram = document.createElement('td');
-            const programValue = row[3].trim().toLowerCase();
-            if (programValue === 'yes') {
-              tdProgram.textContent = '✔️';
-              tdProgram.style.textAlign = 'center';
-            } else if (programValue === 'no') {
-              tdProgram.textContent = '❌';
-              tdProgram.style.textAlign = 'center';
-            } else {
-              tdProgram.textContent = row[3];
-            }
-            tr.appendChild(tdProgram);
-            // Generic
-            const tdGeneric = document.createElement('td');
-            const genericValue = row[4].trim().toLowerCase();
-            if (genericValue === 'yes') {
-              tdGeneric.textContent = '✔️';
-              tdGeneric.style.textAlign = 'center';
-            } else if (genericValue === 'no') {
-              tdGeneric.textContent = '❌';
-              tdGeneric.style.textAlign = 'center';
-            } else {
-              tdGeneric.textContent = row[4];
-            }
-            tr.appendChild(tdGeneric);
-            tbody.appendChild(tr);
-            // Collapsible row
-            const collapseTr = document.createElement('tr');
-            collapseTr.className = 'collapse-row';
-            const collapseTd = document.createElement('td');
-            collapseTd.colSpan = 5;
-            collapseTd.className = 'collapse-content';
-            collapseTd.textContent = 'PLACEHOLDER INFORMATION';
-            collapseTr.appendChild(collapseTd);
-            tbody.appendChild(collapseTr);
-            // Toggle logic
-            btn.addEventListener('click', function() {
-              const expanded = btn.getAttribute('aria-expanded') === 'true';
-              btn.setAttribute('aria-expanded', String(!expanded));
-              btn.innerHTML = expanded ? '+' : '−';
-              collapseTr.style.display = expanded ? 'none' : 'table-row';
-            });
-          }
+          tableData = parseCSV(csvText);
+          renderTable(tableData);
+        })
+        .catch(error => {
+          document.getElementById('dataTable').innerHTML = '<tr><td colspan="100%">Failed to load data.</td></tr>';
         });
-      // Simple table search
-      document.getElementById('tableSearch').addEventListener('keyup', function() {
-        const filter = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#dataTable tbody tr');
-        for (let i = 0; i < rows.length; i += 2) {
-          const mainRow = rows[i];
-          const collapseRow = rows[i + 1];
-          const text = mainRow.textContent.toLowerCase();
-          const match = text.includes(filter);
-          mainRow.style.display = match ? '' : 'none';
-          if (collapseRow) collapseRow.style.display = match ? (collapseRow.style.display === 'table-row' ? 'table-row' : 'none') : 'none';
-        }
+
+      document.getElementById('tableSearch').addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        if (!tableData.length) return;
+
+        // Filter rows (excluding header)
+        const filtered = [tableData[0]].concat(
+          tableData.slice(1).filter(row =>
+            row.some(cell => cell.toLowerCase().includes(query))
+          )
+        );
+        renderTable(filtered);
       });
     </script>
-  </main>
+
+  </div>
+
+  <div class="other-container" id="other-table-container">
+    At this time, our savings support is available exclusively to patients with <u>commercial</u> insurance.
+    <br /><br />
+    We are actively working to expand our offerings and hope to include additional coverage options in the near future.
+    <br /><br />
+    Please check back soon for updates.
+
+  </div>
+
+  <script>
+    document.getElementById('commercial-btn').addEventListener('click', function () {
+      document.getElementById('commercial-btn').style.background = '#63b3b4';
+      document.getElementById('other-btn').style.background = '#ccfaea';
+      document.getElementById('other1-btn').style.background = '#ccfaea';
+      // document.getElementById('other2-btn').style.background = '#ccfaea';
+      document.getElementById('other-table-container').style.display = 'none';
+      document.getElementById('commercial-table-container').style.display = 'block';
+    });
+
+    document.getElementById('other-btn').addEventListener('click', function () {
+      document.getElementById('commercial-btn').style.background = '#ccfaea';
+      document.getElementById('other-btn').style.background = '#63b3b4';
+      document.getElementById('other1-btn').style.background = '#ccfaea';
+      // document.getElementById('other2-btn').style.background = '#ccfaea';
+      document.getElementById('other-table-container').style.display = 'block';
+      document.getElementById('commercial-table-container').style.display = 'none';
+    });
+
+    document.getElementById('other1-btn').addEventListener('click', function () {
+      document.getElementById('commercial-btn').style.background = '#ccfaea';
+      document.getElementById('other-btn').style.background = '#ccfaea';
+      document.getElementById('other1-btn').style.background = '#63b3b4';
+      // document.getElementById('other2-btn').style.background = '#ccfaea';
+      document.getElementById('other-table-container').style.display = 'block';
+      document.getElementById('commercial-table-container').style.display = 'none';
+    });
+
+    // document.getElementById('other2-btn').addEventListener('click', function () {
+    //   document.getElementById('commercial-btn').style.background = '#ccfaea';
+    //   document.getElementById('other-btn').style.background = '#ccfaea';
+    //   document.getElementById('other1-btn').style.background = '#ccfaea';
+    //   document.getElementById('other2-btn').style.background = '#63b3b4';
+    //   document.getElementById('other-table-container').style.display = 'block';
+    //   document.getElementById('commercial-table-container').style.display = 'none';
+    // });
+  </script>
+
+  <div style="height: 100px;"> </div>
+
+
+  <footer>
+    © 2025 SaveRx. All rights reserved.
+  </footer>
 </body>
+
 </html>
