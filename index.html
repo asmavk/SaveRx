@@ -1,158 +1,268 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="Images/SaveRx-Logo.png">
-  <title>SaveRx</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <title>SaveRx.ai — Lower Your Out-of-Pocket on Leading Medications</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Official manufacturer links, clear guidance, and simple reminders. Choose your medication and we’ll take you to the right program—fast." />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
+<body class="theme-dark">
+  <header class="site-header container">
+    <nav class="site-nav">
+      <a class="brand" href="/">SaveRx.ai</a>
+      <div class="nav-fill"></div>
+      <a class="nav-link" href="/about.html">About</a>
+      <a class="nav-link" href="/privacy.html">Privacy</a>
+    </nav>
 
-<body>
-  <header class="curved-header">
-
-    <span class="header-title">
-      <img class="header-logo" src="Images/SaveRx-Logo.png" alt="Italian Trulli">
-      SaveRx</span>
-    <!-- <span class="header-subtitle">How it works</span> -->
-    <a href="#SaveNow" class="header-btn">Save Now</a>
+    <section class="hero hero-tight">
+      <h1 class="hero-title">Pay less for the medicines you rely on</h1>
+      <p class="hero-subtitle">
+        Choose your medication. Enter your email. We’ll send you straight to the official manufacturer program—plus follow-up tips so you don’t leave savings on the table.
+      </p>
+      <ul class="benefits row wrap">
+        <li class="benefit chip">Official manufacturer links</li>
+        <li class="benefit chip">No gimmicks, no coupon purchases</li>
+        <li class="benefit chip">We don’t sell your data</li>
+        <li class="benefit chip">Fast, mobile-friendly flow</li>
+      </ul>
+    </section>
   </header>
 
-  <div class="main-text">
-    <div class="centered-message"> Stop <u>overpaying</u> for your prescription.</div>
-    <div class="centered-subtext"> Here at SaveRx, we are connecting you to manufacturer saving cards, so that you are
-      not overpaying for your prescriptions. </div>
-    <a href="#SaveNow" class="savenow-btn">Search your perscription</a>
+  <section class="trust container">
+    <div class="trust-box">
+      <h3 class="eyebrow">What we do</h3>
+      <p class="muted">We point you to the right program, help you prepare what’s needed, and nudge you to finish if you get busy.</p>
+    </div>
+    <div class="trust-box">
+      <h3 class="eyebrow">What we don’t do</h3>
+      <p class="muted">No pay-to-print “coupons.” No pharmacy switching without consent. No reselling your information. Ever.</p>
+    </div>
+    <div class="trust-box">
+      <h3 class="eyebrow">Who it’s for</h3>
+      <p class="muted">Most programs are for <strong>commercial insurance</strong>. Medicare/Medicaid rules differ—we’ll flag that clearly.</p>
+    </div>
+  </section>
 
-  </div>
+  <main class="container" id="app">
+    <section class="section">
+      <h2 class="section-title">Pick your medication</h2>
+      <p class="section-subtitle muted">We’ll open a quick email prompt and then take you to the official program page.</p>
+    </section>
 
-  <div id="SaveNow" class="white-box">
-    What insurance do you use to pay for your prescription?
-  </div>
+    <div class="eyebrow">Diabetes / Cardiometabolic &amp; Cardio</div>
+    <section class="grid cards" id="grid-cm"></section>
 
-  <div class="insurance-options">
-    <button class="insurance-btn" id="commercial-btn" style="background-color: #63b3b4;">Commercial Insurance</button>
-    <button class="insurance-btn" id="other-btn">Government Provided</button>
-    <button class="insurance-btn" id="other1-btn">I don't have insurance</button>
-    <!-- <button class="insurance-btn" id="other2-btn">I don't know</button> -->
-  </div>
+    <div class="eyebrow">Lipids</div>
+    <section class="grid cards" id="grid-lipids"></section>
 
-  <div class="commercial-container" id="commercial-table-container">
-    <input type="text" id="tableSearch" class="search-input" placeholder="Search your medication...">
-    <table id="dataTable">
-      <!-- Table content will be inserted here -->
-    </table>
+    <div class="eyebrow">Immunology / Derm / Rheum</div>
+    <section class="grid cards" id="grid-immunology"></section>
 
-    <script>
-      function parseCSV(text) {
-        const lines = text.trim().split('\n');
-        return lines.map(line => line.split(','));
-      }
+    <div class="eyebrow">Respiratory / Allergy</div>
+    <section class="grid cards" id="grid-resp"></section>
 
-      let tableData = [];
+    <div class="eyebrow">Bonus</div>
+    <section class="grid cards" id="grid-bonus"></section>
 
-      function renderTable(data) {
-        const table = document.getElementById('dataTable');
-        table.innerHTML = '';
-        // Rows
-        for (let i = 1; i < data.length; i++) {
-          const row = document.createElement('tr');
-          data[i].forEach((cell, idx) => {
-            const td = document.createElement('td');
-            if (idx === 1) {
-              td.innerHTML = `<h5 class="OG-price"><s>${cell}</s> retail</h5>`; // Strike through second column
-            }
-            else if (idx === 3) {
-              td.innerHTML = `<a href="${cell}" class="table-btn" target="_blank">Save Now</a>`;
-            }
-            else {
-              td.innerHTML = `<h4 class="other-table-txt">${cell}</h4>`; 
-            }
-            row.appendChild(td);
-          });
-          table.appendChild(row);
-        }
-      }
+    <!-- Enrollment CTA -->
+    <section class="section cta container-soft">
+      <div class="cta-row">
+        <div class="cta-copy">
+          <h3 class="section-title">Want help finishing enrollment?</h3>
+          <p class="muted">Enter your email on the next step—we’ll remind you and track your progress so you don’t miss out.</p>
+        </div>
+        <button class="btn btn-primary" onclick="document.querySelector('.card-btn')?.click()">Get started →</button>
+      </div>
+    </section>
 
-      fetch('data08062025.csv')
-        .then(response => response.text())
-        .then(csvText => {
-          tableData = parseCSV(csvText);
-          renderTable(tableData);
-        })
-        .catch(error => {
-          document.getElementById('dataTable').innerHTML = '<tr><td colspan="100%">Failed to load data.</td></tr>';
-        });
+    <!-- How it works -->
+    <section class="section how-it-works">
+      <h2 class="section-title">How it works</h2>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num">1</span>
+          <div>
+            <h3 class="step-title">Choose your drug</h3>
+            <p class="muted">Click your medication to open the email prompt.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">2</span>
+          <div>
+            <h3 class="step-title">Enter your email</h3>
+            <p class="muted">We’ll send reminders and a quick checklist so you finish enrollment.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">3</span>
+          <div>
+            <h3 class="step-title">Go to the official program</h3>
+            <p class="muted">We take you directly to the manufacturer’s page for your medication.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </main>
 
-      document.getElementById('tableSearch').addEventListener('input', function () {
-        const query = this.value.toLowerCase();
-        if (!tableData.length) return;
+  <footer class="site-footer container">
+    <p class="muted">© SaveRx.ai — Patient savings made simple.</p>
+    <p class="xsmall muted">SaveRx.ai links to manufacturer programs. Eligibility and terms are set by each manufacturer and may change.</p>
+  </footer>
 
-        // Filter rows (excluding header)
-        const filtered = [tableData[0]].concat(
-          tableData.slice(1).filter(row =>
-            row.some(cell => cell.toLowerCase().includes(query))
-          )
-        );
-        renderTable(filtered);
-      });
-    </script>
+  <!-- Modal -->
+  <div class="modal-backdrop" id="backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal" role="document">
+      <header class="modal-header">
+        <h2 id="modal-title" class="modal-title">Get your program link</h2>
+        <p id="modal-sub" class="modal-sub">Enter your email and we’ll take you to <span id="drug-name">this medicine</span>’s official page.</p>
+      </header>
+      <div class="modal-body">
+        <form id="lead-form" class="form form-stacked" autocomplete="on" novalidate>
+          <label for="email" class="form-label">Email</label>
+          <input id="email" name="email" type="email" class="input" inputmode="email" placeholder="you@email.com" required autocomplete="email" />
+          <div class="hint xsmall muted">We’ll email guidance and reminders only for this request. Unsubscribe anytime.</div>
 
-  </div>
+          <!-- Honeypot -->
+          <div class="sr-only" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
 
-  <div class="other-container" id="other-table-container">
-    At this time, our savings support is available exclusively to patients with <u>commercial</u> insurance.
-    <br /><br />
-    We are actively working to expand our offerings and hope to include additional coverage options in the near future.
-    <br /><br />
-    Please check back soon for updates.
+          <!-- Hidden context -->
+          <input type="hidden" name="drug" id="drug-hidden" />
+          <input type="hidden" name="source" id="source-hidden" value="index-modal" />
+          <input type="hidden" name="userAgent" id="ua-hidden" />
 
+          <div class="modal-actions">
+            <button type="submit" class="btn btn-primary" id="submit-btn">Continue →</button>
+            <button type="button" class="btn btn-ghost" id="cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <script>
-    document.getElementById('commercial-btn').addEventListener('click', function () {
-      document.getElementById('commercial-btn').style.background = '#63b3b4';
-      document.getElementById('other-btn').style.background = '#ccfaea';
-      document.getElementById('other1-btn').style.background = '#ccfaea';
-      // document.getElementById('other2-btn').style.background = '#ccfaea';
-      document.getElementById('other-table-container').style.display = 'none';
-      document.getElementById('commercial-table-container').style.display = 'block';
+    // === CONFIG ===
+    const SCRIPT_URL = "YOUR_APPS_SCRIPT_URL_HERE";
+
+    const DRUGS = {
+      "Ozempic® (semaglutide)": "https://www.ozempic.com/savings-and-resources/save-on-ozempic.html",
+      "Wegovy® (semaglutide)": "https://www.wegovy.com/coverage-and-savings/save-on-wegovy.html",
+      "Rybelsus® (semaglutide)": "https://www.rybelsus.com/savings-and-support.html",
+      "Mounjaro® (tirzepatide)": "https://mounjaro.lilly.com/savings-resources",
+      "Trulicity® (dulaglutide)": "https://trulicity.lilly.com/savings-resources",
+      "Jardiance® (empagliflozin)": "https://patient.boehringer-ingelheim.com/us/jardiance/savings-and-support",
+      "Farxiga® (dapagliflozin)": "https://www.farxiga.com/savings-support",
+      "Entresto® (sacubitril/valsartan)": "https://www.entresto.com/savings-support",
+      "Eliquis® (apixaban)": "https://www.eliquis.bmscustomerconnect.com/savings",
+      "Xarelto® (rivaroxaban)": "https://www.xarelto-us.com/cost-support",
+      "Repatha® (evolocumab)": "https://www.repatha.com/repatha-cost",
+      "Skyrizi® (risankizumab)": "https://www.skyrizi.com/support-and-savings",
+      "Rinvoq® (upadacitinib)": "https://www.rinvoq.com/savings",
+      "Stelara® (ustekinumab)": "https://www.stelara.com/cost-support",
+      "Tremfya® (guselkumab)": "https://www.tremfya.com/support",
+      "Cosentyx® (secukinumab)": "https://www.cosentyx.com/cost-and-support",
+      "Taltz® (ixekizumab)": "https://taltz.lilly.com/savings-support",
+      "Otezla® (apremilast)": "https://www.otezla.com/cost-and-support",
+      "Enbrel® (etanercept)": "https://www.enbrel.com/support-and-savings",
+      "Dupixent® (dupilumab)": "https://www.dupixent.com/copay-card",
+      "Xolair® (omalizumab)": "https://www.xolaircopay.com/"
+    };
+
+    const GROUPS = {
+      cm: ["Ozempic® (semaglutide)","Wegovy® (semaglutide)","Rybelsus® (semaglutide)","Mounjaro® (tirzepatide)","Trulicity® (dulaglutide)","Jardiance® (empagliflozin)","Farxiga® (dapagliflozin)","Entresto® (sacubitril/valsartan)","Eliquis® (apixaban)","Xarelto® (rivaroxaban)"],
+      lipids: ["Repatha® (evolocumab)"],
+      immunology: ["Skyrizi® (risankizumab)","Rinvoq® (upadacitinib)","Stelara® (ustekinumab)","Tremfya® (guselkumab)","Cosentyx® (secukinumab)","Taltz® (ixekizumab)","Otezla® (apremilast)","Enbrel® (etanercept)"],
+      resp: ["Dupixent® (dupilumab)"],
+      bonus: ["Xolair® (omalizumab)"]
+    };
+
+    const MAKERS = {
+      "Ozempic® (semaglutide)": "Novo Nordisk", "Wegovy® (semaglutide)": "Novo Nordisk", "Rybelsus® (semaglutide)": "Novo Nordisk",
+      "Mounjaro® (tirzepatide)": "Eli Lilly", "Trulicity® (dulaglutide)": "Eli Lilly", "Jardiance® (empagliflozin)": "Boehringer Ingelheim / Lilly",
+      "Farxiga® (dapagliflozin)": "AstraZeneca", "Entresto® (sacubitril/valsartan)": "Novartis", "Eliquis® (apixaban)": "BMS / Pfizer", "Xarelto® (rivaroxaban)": "Janssen / Bayer",
+      "Repatha® (evolocumab)": "Amgen", "Skyrizi® (risankizumab)": "AbbVie", "Rinvoq® (upadacitinib)": "AbbVie", "Stelara® (ustekinumab)": "Janssen (J&J)",
+      "Tremfya® (guselkumab)": "Janssen", "Cosentyx® (secukinumab)": "Novartis", "Taltz® (ixekizumab)": "Eli Lilly", "Otezla® (apremilast)": "Amgen",
+      "Enbrel® (etanercept)": "Amgen", "Dupixent® (dupilumab)": "Sanofi / Regeneron", "Xolair® (omalizumab)": "Genentech / Novartis"
+    };
+
+    function renderGroup(ids, containerId) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = ids.map(name => {
+        const m = MAKERS[name] || "";
+        return `
+          <button class="card card-action card-btn drug-card"
+                  data-drug="${encodeURIComponent(name)}"
+                  data-url="${encodeURIComponent(DRUGS[name]||'#')}"
+                  aria-label="Select ${name}">
+            <span class="card-body">
+              <span class="card-title">${name}</span>
+              <span class="card-subtitle">${m}</span>
+            </span>
+            <span class="chev" aria-hidden="true">→</span>
+          </button>
+        `;
+      }).join("");
+    }
+    renderGroup(GROUPS.cm, "grid-cm");
+    renderGroup(GROUPS.lipids, "grid-lipids");
+    renderGroup(GROUPS.immunology, "grid-immunology");
+    renderGroup(GROUPS.resp, "grid-resp");
+    renderGroup(GROUPS.bonus, "grid-bonus");
+
+    // Modal logic (unchanged)
+    const backdrop=document.getElementById("backdrop"), form=document.getElementById("lead-form"), emailEl=document.getElementById("email"),
+          drugHidden=document.getElementById("drug-hidden"), sourceHidden=document.getElementById("source-hidden"),
+          uaHidden=document.getElementById("ua-hidden"), drugNameSpan=document.getElementById("drug-name"),
+          cancelBtn=document.getElementById("cancel-btn"), submitBtn=document.getElementById("submit-btn");
+    let targetUrl="#";
+
+    document.addEventListener("click",(e)=>{ const btn=e.target.closest(".card-btn"); if(!btn) return;
+      const drug=decodeURIComponent(btn.dataset.drug); targetUrl=decodeURIComponent(btn.dataset.url); openModal(drug); });
+
+    function openModal(drug){ drugHidden.value=drug; drugNameSpan.textContent=drug; uaHidden.value=navigator.userAgent;
+      emailEl.value=localStorage.getItem("saverx_email")||""; backdrop.setAttribute("aria-hidden","false");
+      setTimeout(()=>emailEl.focus(),50); trapFocus(backdrop); }
+    function closeModal(){ backdrop.setAttribute("aria-hidden","true"); releaseFocus(); }
+    cancelBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click",(e)=>{ if(e.target===backdrop) closeModal(); });
+    document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && backdrop.getAttribute("aria-hidden")==="false") closeModal(); });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const website=(fd.get("website")||"").trim();
+      const email=(fd.get("email")||"").trim(); if(!email) return;
+      localStorage.setItem("saverx_email", email);
+
+      const body = new URLSearchParams();
+      body.set("email", email); body.set("drug", fd.get("drug")); body.set("source", fd.get("source")); body.set("userAgent", fd.get("userAgent"));
+      if (website) body.set("website", website);
+
+      let sent=false;
+      try{ if(SCRIPT_URL && navigator.sendBeacon){ const blob=new Blob([body.toString()],{type:"application/x-www-form-urlencoded;charset=UTF-8"}); sent=navigator.sendBeacon(SCRIPT_URL, blob);} }catch{}
+      if(!sent && SCRIPT_URL){ try{ await fetch(SCRIPT_URL,{ method:"POST", headers:{ "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8" }, body: body.toString(), mode:"no-cors", keepalive:true }); }catch{} }
+
+      submitBtn.disabled=true; submitBtn.textContent="Taking you to the program…";
+      const url = addUTM(targetUrl,{utm_source:"saverx",utm_medium:"outbound",utm_campaign:"program",utm_content: fd.get("drug")});
+      window.location.assign(url);
     });
 
-    document.getElementById('other-btn').addEventListener('click', function () {
-      document.getElementById('commercial-btn').style.background = '#ccfaea';
-      document.getElementById('other-btn').style.background = '#63b3b4';
-      document.getElementById('other1-btn').style.background = '#ccfaea';
-      // document.getElementById('other2-btn').style.background = '#ccfaea';
-      document.getElementById('other-table-container').style.display = 'block';
-      document.getElementById('commercial-table-container').style.display = 'none';
-    });
+    function addUTM(url, params){ try{ const u=new URL(url); Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v)); return u.toString(); }catch{ return url; } }
 
-    document.getElementById('other1-btn').addEventListener('click', function () {
-      document.getElementById('commercial-btn').style.background = '#ccfaea';
-      document.getElementById('other-btn').style.background = '#ccfaea';
-      document.getElementById('other1-btn').style.background = '#63b3b4';
-      // document.getElementById('other2-btn').style.background = '#ccfaea';
-      document.getElementById('other-table-container').style.display = 'block';
-      document.getElementById('commercial-table-container').style.display = 'none';
-    });
-
-    // document.getElementById('other2-btn').addEventListener('click', function () {
-    //   document.getElementById('commercial-btn').style.background = '#ccfaea';
-    //   document.getElementById('other-btn').style.background = '#ccfaea';
-    //   document.getElementById('other1-btn').style.background = '#ccfaea';
-    //   document.getElementById('other2-btn').style.background = '#63b3b4';
-    //   document.getElementById('other-table-container').style.display = 'block';
-    //   document.getElementById('commercial-table-container').style.display = 'none';
-    // });
+    // Focus trap
+    let lastFocused;
+    function trapFocus(container){ lastFocused=document.activeElement;
+      const f=[...container.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])')].filter(el=>!el.disabled && el.getAttribute("aria-hidden")!=="true");
+      if(!f.length) return; const first=f[0], last=f[f.length-1];
+      container.addEventListener("keydown", trap); function trap(e){ if(e.key!=="Tab") return;
+        if(e.shiftKey){ if(document.activeElement===first){ e.preventDefault(); last.focus(); } }
+        else { if(document.activeElement===last){ e.preventDefault(); first.focus(); } } } }
+    function releaseFocus(){ if(lastFocused && typeof lastFocused.focus==="function") lastFocused.focus(); }
   </script>
-
-  <div style="height: 100px;"> </div>
-
-
-  <footer>
-    © 2025 SaveRx. All rights reserved.
-  </footer>
 </body>
-
 </html>
